@@ -2146,13 +2146,17 @@ when encountering unrecognized values.
 If a profile does not define its own rules for handling unrecognized values, 
 the following rule applies by default:
 
-  1. If the unrecognized value is a JSON object, and the only thing that makes 
-     it unrecognized is that it contains one or more keys that have no meaning
-     assigned to them (in the latest revision of the profile that the application 
-     is aware of), then the application **MUST** simply ignore those unknown 
-     keys and continue processing the profile.
+  1. If the unrecognized value occurs in a profile-defined query parameter, the
+     server **MUST** fail the request and respond with a `400 Bad Request`and an
+     [error object] indicating the problematic parameter.
+     
+  2. Otherwise, if the unrecognized value occurs is a JSON object, and the only 
+     thing that makes it unrecognized is that it contains one or more keys that 
+     have no meaning assigned to them (in the latest revision of the profile that 
+     the application is aware of), then the application **MUST** simply ignore 
+     those unknown keys and continue processing the profile.
 
-  2. However, in all other cases, the application **MUST** assume that the 
+  3. In all other cases, the application **MUST** assume that the 
      profile has been applied erroneously and **MUST** totally ignore the 
      profile (i.e., process the document as if the profile were not there).
 
